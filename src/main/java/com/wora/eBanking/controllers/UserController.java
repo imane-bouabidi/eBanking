@@ -5,6 +5,7 @@ import com.wora.eBanking.dtos.user.UserDTO;
 import com.wora.eBanking.services.interfaces.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,6 +17,11 @@ public class UserController {
 
     private final UserService userService;
 
+    @PutMapping("/{username}")
+    public ResponseEntity<String> updatePassword(@PathVariable String username, @RequestBody PasswordUpdateDTO passwordUpdateDTO) {
+        userService.updatePassword(username, passwordUpdateDTO);
+        return ResponseEntity.ok("Password updated successfully");
+    }
 
     @GetMapping("/public/notice")
     public ResponseEntity<String> getNotice() {
@@ -38,8 +44,16 @@ public class UserController {
     }
 
     @DeleteMapping("/admin/deleteUser/{userId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> deleteUser(@PathVariable Long userId) {
         userService.delete(userId);
         return ResponseEntity.ok("User deleted successfully.");
     }
+
+    @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<List<UserDTO>> getAllUsers() {
+        return ResponseEntity.ok(userService.findAll());
+    }
+
 }
