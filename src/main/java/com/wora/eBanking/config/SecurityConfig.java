@@ -30,7 +30,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/user/**").hasAnyRole("USER", "ADMIN")
                         .anyRequest().authenticated()
                 )
-                .httpBasic(httpSecurityHttpBasicConfigurer ->{});
+                .httpBasic(httpBasic -> {});
 
         return http.build();
     }
