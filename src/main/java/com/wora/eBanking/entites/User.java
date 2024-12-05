@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -17,7 +17,7 @@ import java.util.Set;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private Long id;
 
     @Column(unique = true, nullable = false)
     private String username;
@@ -27,11 +27,10 @@ public class User {
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
-            name = "user_roles",
-            joinColumns = @JoinColumn(name = "users_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
-    private Set<Role> roles;
+            name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "roles_id"))
+    private List<Role> roles;
 
 }
 
