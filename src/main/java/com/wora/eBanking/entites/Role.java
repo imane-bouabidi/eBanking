@@ -23,7 +23,7 @@ public class Role {
     @Column(unique = true, nullable = false)
     private String name;
 
-    @ManyToMany(mappedBy = "roles")
-    private List<User> user;
+    @OneToMany(mappedBy = "role")
+    private List<User> users;
 }
 

@@ -12,8 +12,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class CreateUserDTO {
     @NotNull
-    private Long id;
-    @NotNull
     private String username;
 
     @NotNull
