@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/api/users")
 @RequiredArgsConstructor
 public class UserController {
 
@@ -21,25 +21,11 @@ public class UserController {
         return ResponseEntity.ok("Password updated successfully");
     }
 
-    @GetMapping("/public/notices")
-    public ResponseEntity<String> getNotice() {
-        return ResponseEntity.ok("Public notice accessible without authentication.");
-    }
-
-    @GetMapping("/contact")
-    public ResponseEntity<String> Contact() {
-        return ResponseEntity.ok("contact support");
-    }
-
     @GetMapping("/myLoans")
     public ResponseEntity<String> getMyLoans() {
         return ResponseEntity.ok("Loans data for the authenticated user.");
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<UserDTO> registerUser(@RequestBody CreateUserDTO user) {
-        return ResponseEntity.ok(userService.save(user));
-    }
 
 
 

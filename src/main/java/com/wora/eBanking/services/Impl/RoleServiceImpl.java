@@ -27,6 +27,13 @@ public class RoleServiceImpl implements RoleService {
         return roleMapper.toDTO(savedRole);
     }
 
+    public Role createDefault() {
+        CreateRoleDTO roleDTO = new CreateRoleDTO("ROLE_USER");
+        Role role = roleMapper.toEntity(roleDTO);
+        Role savedRole = roleRepository.save(role);
+        return savedRole;
+    }
+
     public RoleDTO update(UpdateRoleDTO dto, Long id) {
         return null;
     }
@@ -41,4 +48,6 @@ public class RoleServiceImpl implements RoleService {
         roleRepository.findById(id).orElseThrow(()-> new EntityNotFoundException("Role not found"));
         roleRepository.deleteById(id);
     }
+
+
 }

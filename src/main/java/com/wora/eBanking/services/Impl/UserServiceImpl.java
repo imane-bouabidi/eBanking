@@ -1,6 +1,7 @@
 package com.wora.eBanking.services.Impl;
 
 import com.wora.eBanking.dtos.PasswordUpdateDTO;
+import com.wora.eBanking.dtos.role.CreateRoleDTO;
 import com.wora.eBanking.dtos.user.CreateUserDTO;
 import com.wora.eBanking.dtos.user.UpdateUserDTO;
 import com.wora.eBanking.dtos.user.UserDTO;
@@ -11,6 +12,7 @@ import com.wora.eBanking.exceptions.UsernameAlreadyExistsException;
 import com.wora.eBanking.mappers.UserMapper;
 import com.wora.eBanking.repositories.RoleRepository;
 import com.wora.eBanking.repositories.UserRepository;
+import com.wora.eBanking.services.interfaces.RoleService;
 import com.wora.eBanking.services.interfaces.UserService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +31,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final RoleRepository roleRepository;
+    private final RoleService roleService;
 
     public UserDTO save(CreateUserDTO userDTO) {
         if (userRepository.findByUsername(userDTO.getUsername()).isPresent()) {
@@ -36,7 +39,7 @@ public class UserServiceImpl implements UserService {
         }
 
         Role role = roleRepository.findByName("ROLE_USER")
-                .orElseThrow(() -> new RuntimeException("Default role not found."));
+                .orElseGet(roleService::createDefault);
         User user = userMapper.toEntity(userDTO);
         user.setUsername(userDTO.getUsername());
         user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
