@@ -1,7 +1,9 @@
     package com.wora.eBanking.controllers;
 
-    import com.wora.eBanking.dtos.role.CreateRoleDTO;
+    import com.wora.eBanking.dtos.role.RoleDTO;
+    import com.wora.eBanking.dtos.role.UpdateRoleDTO;
     import com.wora.eBanking.dtos.user.UserDTO;
+    import com.wora.eBanking.services.interfaces.RoleService;
     import com.wora.eBanking.services.interfaces.UserService;
     import lombok.RequiredArgsConstructor;
     import org.springframework.http.ResponseEntity;
@@ -10,18 +12,14 @@
 
     import java.util.List;
 
-
     @RestController
     @RequestMapping("/api/admin")
     @RequiredArgsConstructor
     public class AdminController {
 
         private final UserService userService;
+        private final RoleService roleService;
 
-//        @GetMapping("/manageUsers")
-//        public ResponseEntity<List<UserDTO>> manageUsers() {
-//            return ResponseEntity.ok(userService.findAll());
-//        }
 
         @DeleteMapping("/deleteUser/{userId}")
         @PreAuthorize("hasRole('ADMIN')")
@@ -30,15 +28,20 @@
             return ResponseEntity.ok("User deleted successfully.");
         }
 
-        @GetMapping
-        @PreAuthorize("hasRole('ADMIN')")
+        @GetMapping("/all")
         public ResponseEntity<List<UserDTO>> getAllUsers() {
             return ResponseEntity.ok(userService.findAll());
         }
 
-//        @GetMapping
-////        @PreAuthorize("hasRole('ADMIN')")
-//        public ResponseEntity<RoleDTO> createRole() {
-//            return ResponseEntity.ok(userService.findAll());
-//        }
+        @PostMapping("creerAdminRole")
+        public ResponseEntity<RoleDTO> createRole() {
+            return ResponseEntity.ok(roleService.createAdmin());
+        }
+
+
+        @PutMapping("/updateRole/{id}")
+        public ResponseEntity<String> updateRole(@RequestBody UpdateRoleDTO dto, @PathVariable Long id) {
+            roleService.update(dto, id);
+            return ResponseEntity.ok("role updated successfully");
+        }
     }
