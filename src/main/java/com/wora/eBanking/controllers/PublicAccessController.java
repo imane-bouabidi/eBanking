@@ -5,6 +5,7 @@ import com.wora.eBanking.dtos.user.UserDTO;
 import com.wora.eBanking.services.interfaces.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -27,5 +28,10 @@ public class PublicAccessController {
     @PostMapping("/register")
     public ResponseEntity<UserDTO> registerUser(@RequestBody CreateUserDTO user) {
         return ResponseEntity.ok(userService.save(user));
+    }
+
+    @GetMapping("/whoami")
+    public ResponseEntity<?> whoAmI(Authentication authentication) {
+        return ResponseEntity.ok(authentication.getAuthorities());
     }
 }
