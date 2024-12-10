@@ -1,11 +1,6 @@
 package com.wora.eBanking.controllers;
 
 import com.wora.eBanking.dtos.PasswordUpdateDTO;
-//import com.wora.eBanking.dtos.role.UpdateRoleDTO;
-//import com.wora.eBanking.services.Impl.RoleServiceImpl;
-//import com.wora.eBanking.services.interfaces.RoleService;
-import com.wora.eBanking.dtos.role.UpdateRoleDTO;
-import com.wora.eBanking.services.interfaces.RoleService;
 import com.wora.eBanking.services.interfaces.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserService userService;
-//    private final RoleService roleService;
 
     @PutMapping("/{username}")
     public ResponseEntity<String> updatePassword(@PathVariable String username, @RequestBody PasswordUpdateDTO passwordUpdateDTO) {
@@ -45,10 +39,5 @@ public class UserController {
         return ResponseEntity.ok("Balance");
     }
 
-//        @PutMapping("/updateRole/{id}")
-//        public ResponseEntity<String> updateRole(@RequestBody UpdateRoleDTO dto, @PathVariable Long id) {
-//            roleService.update(dto, id);
-//            return ResponseEntity.ok("role updated successfully");
-//        }
 
 }

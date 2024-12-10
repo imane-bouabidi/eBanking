@@ -8,7 +8,6 @@
     import lombok.RequiredArgsConstructor;
     import org.springframework.http.ResponseEntity;
     import org.springframework.security.access.prepost.PreAuthorize;
-    import org.springframework.security.core.Authentication;
     import org.springframework.web.bind.annotation.*;
 
     import java.util.List;
@@ -34,11 +33,15 @@
             return ResponseEntity.ok(userService.findAll());
         }
 
-        @PostMapping("creerAdminRole")
-        public ResponseEntity<RoleDTO> createRole() {
-            return ResponseEntity.ok(roleService.createAdmin());
+        @GetMapping("/user/{id}")
+        public ResponseEntity<UserDTO> getUser( @PathVariable Long id) {
+            return ResponseEntity.ok(userService.findById(id));
         }
 
+//        @PostMapping("creerAdminRole")
+//        public ResponseEntity<RoleDTO> createRole() {
+//            return ResponseEntity.ok(roleService.createAdmin());
+//        }
 
         @PutMapping("/updateRole/{id}")
         public ResponseEntity<String> updateRole(@RequestBody UpdateRoleDTO dto, @PathVariable Long id) {
